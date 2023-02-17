@@ -1,0 +1,53 @@
+.product {
+	width: 28rem;
+	background-color: $green-light;
+	border-radius: 1rem;
+
+	&__img {
+		width: 100%;
+		border-radius: 1rem 1rem 0 0;
+	}
+
+	&__content {
+		padding: .6rem;
+	}
+
+	&__title {
+		font-size: 2rem;
+	}
+
+	&__description {
+		font-size: 1.6rem;
+	}
+
+	&__line {
+		border: .5px solid $black;
+	}
+
+	&__action {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: .3rem 1rem;
+	}
+
+	&__button {
+		border: none;
+		background-color: $primary;
+		padding: .8rem 1.5rem;
+		font-size: 1.6rem;
+		color: $white;
+		border-radius: 1rem;
+		transition: background-color .3s ease;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #45377d;
+			;
+		}
+	}
+
+	&__price {
+		font-size: 1.8rem;
+	}
+}
