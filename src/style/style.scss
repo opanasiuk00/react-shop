@@ -1,0 +1,22 @@
+@import './normalize';
+@import './variables';
+
+.wrapper {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.container {
+	max-width: 126rem;
+	min-width: 32rem;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+@import '../components/header/header.scss';
+@import '../components/main/main.scss';
+@import '../components/cart/cart.scss';
+@import '../components/basket/basket.scss';
+@import '../components/product/product.scss';
+@import '../components/footer/footer.scss';

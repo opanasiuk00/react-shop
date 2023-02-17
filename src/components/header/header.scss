@@ -1,0 +1,22 @@
+.header {
+	background-color: $green;
+
+	&__inner {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__logo-title {
+		font-size: 1.5rem;
+	}
+
+	&__link {
+		font-size: 1.3rem;
+		transition: text-decoration .3s ease;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

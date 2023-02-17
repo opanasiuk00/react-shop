@@ -1,0 +1,29 @@
+.cart {
+	position: fixed;
+	right: 2rem;
+	border: none;
+	background-color: $green-light .1;
+	border-radius: 50%;
+	z-index: 100;
+	cursor: pointer;
+
+
+	&:hover {
+		background-color: $green-light;
+	}
+
+	@media (max-width: 768px) {
+		bottom: 5rem;
+	}
+
+	&__image {
+		width: 2rem;
+	}
+
+	&__count {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		color: $red;
+	}
+}
