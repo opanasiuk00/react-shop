@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Product = ({ id, name, description, price, full_background, handleAddInBasket }) => {
-
+const Product = React.memo(({ id, name, description, price, full_background, handleAddInBasket }) => {
 	return (
 		<div className='product'>
 			<div className='product__picture'>
@@ -25,6 +24,6 @@ const Product = ({ id, name, description, price, full_background, handleAddInBas
 			</div>
 		</div>
 	)
-}
+})
 
 export default Product;

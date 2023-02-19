@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { API_KEY, API_URL } from '../../config';
+import { reducer } from '../../reducer';
 import Basket from '../basket';
 import Cart from '../cart';
 import Product from '../product';
 
 const getLocaleStorage = () => {
-	const data = localStorage.getItem('react-shop'),
-		items = data ? JSON.parse(data) : [];
-	return items;
+	const data = localStorage.getItem('react-shop');
+	return data ? JSON.parse(data) : [];
+}
+
+const initialState = {
+	goods: [],
+	order: getLocaleStorage(),
+	loading: 'loading',
+	isBasketShow: false
 }
 
 
 const Main = () => {
-	const [goods, setGoods] = useState([]);
-	const [order, setOrder] = useState(getLocaleStorage());
-	const [isBasketShow, setBasketShow] = useState(false);
-	const [loading, setLoading] = useState('loading');
+	const [{ goods, order, loading, isBasketShow }, dispatch] = useReducer(reducer, initialState);
 	useEffect(() => {
 		fetch(`${API_URL}`, {
 			headers: {
@@ -23,74 +27,39 @@ const Main = () => {
 			}
 		}).then(res => res.json()
 		).then((data) => {
-			setGoods(data.featured);
-			setLoading('successful');
+			dispatch({ type: 'GET_GOODS', payload: data.featured });
+			dispatch({ type: 'LOADING', payload: 'successful' });
 		}).catch(e => {
-			setLoading('error')
-			setGoods([]);
+			dispatch({ type: 'LOADING', payloadL: 'error' });
+			dispatch({ type: 'GET_GOODS', payload: [] });
 		})
 	}, []);
 
 	useEffect(() => {
 		const json = JSON.stringify(order)
 		localStorage.setItem('react-shop', json)
-	}, [order])
+	}, [order]);
 
-	const handleAddInBasket = (item) => {
-		const itemIndex = order.find(orderItem => orderItem.id === item.id);
-
-		if (!itemIndex) {
-			const newItem = { ...item, quanity: 1 }
-			setOrder([...order, newItem]);
-		} else {
-			const newOrder = order.map(orderItem => {
-				if (orderItem.id === itemIndex.id) {
-					return {
-						...orderItem,
-						quanity: orderItem.quanity + 1
-					}
-				} else {
-					return orderItem
-				}
-			})
-			setOrder(newOrder);
-		}
-	}
+	const handleAddInBasket = useCallback(
+		(item) => {
+			dispatch({ type: 'SET_ORDER', payload: item })
+		}, []
+	)
 
 	const handleBasketShow = () => {
-		setBasketShow(prev => !prev)
+		dispatch({ type: 'BASKET_SHOW' })
 	}
 
 	const removeFromOrder = (id) => {
-		setOrder(prev => prev.filter(elem => elem.id !== id));
+		dispatch({ type: 'ORDER_REMOVE', payload: { id: id } })
 	}
 
 	const handleOrderItemIncrement = (id) => {
-		const newOrder = order.map((item) => {
-			if (item.id === id) {
-				return {
-					...item,
-					quanity: item.quanity + 1
-				}
-			} else {
-				return item
-			}
-		})
-		setOrder(newOrder);
+		dispatch({ type: 'ORDER_INCREMENT', payload: { id: id, status: 'increment' } })
 	}
 
 	const handleOrderItemDecrement = (id) => {
-		const newOrder = order.map((item) => {
-			if (item.id === id) {
-				return {
-					...item,
-					quanity: item.quanity - 1
-				}
-			} else {
-				return item
-			}
-		})
-		setOrder(newOrder);
+		dispatch({ type: 'ORDER_INCREMENT', payload: { id: id, status: 'decrement' } })
 	}
 
 	return (
@@ -119,4 +88,4 @@ const Main = () => {
 	)
 }
 
-export default Main
+export default Main;

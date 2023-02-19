@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Basket = ({ order, handleBasketShow, removeFromOrder, handleOrderItemIncrement, handleOrderItemDecrement }) => {
-
 	const total = order.reduce((sum, elem) => {
 		return sum + elem.price * elem.quanity
 	}, 0);
